@@ -1,0 +1,28 @@
+{
+    "name": "globalis/wp-cubi-imagemin",
+    "type":"wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "description":"Standalone image minification WordPress plugin",
+    "homepage": "https://github.com/globalis-ms/wp-cubi-imagemin",
+    "authors": [
+        {
+            "name": "Pierre Dargham",
+            "homepage": "https://github.com/pierre-dargham/"
+        },
+        {
+            "name": "GLOBALIS media systems",
+            "homepage": "https://www.globalis-ms.com/"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/globalis-ms/wp-cubi-imagemin/issues"
+    },
+    "require": {
+        "php":">=5.5.0",
+        "composer/installers": "^1.5.0",
+        "ps/image-optimizer": "^1.1.2"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.5.1"
+    }
+}
