@@ -52,4 +52,4 @@ Bulk image optimization can be done using [wp-cli](http://wp-cli.org/) :
 - Usage: `wp media optimize <directories>... [--jpeg_level=<jpeg_level>]`
 - Help: `wp help media optimize`
 
-**Note:** thumnails regeneration commands such as [`wp media regenerate`](https://developer.wordpress.org/cli/commands/media/regenerate/) will trigger plugin optimization functions as well.
+**Note:** thumbnails regeneration commands such as [`wp media regenerate`](https://developer.wordpress.org/cli/commands/media/regenerate/) will trigger plugin optimization functions as well.
