@@ -43,3 +43,13 @@ You don't need to have all the tools working, but it is recommanded to have at l
 ## Hooks
 
 - `apply_filters('wp-cubi-imagemin\options', $options)` : Filter the options of `ImageOptimizer\OptimizerFactory` (see the [complete list](https://github.com/psliwa/image-optimizer#configuration)), such as the JPG compression level (default to 85 in wp-cubi-imagemin).
+
+## Bulk optimization
+
+Bulk image optimization can be done using [wp-cli](http://wp-cli.org/) :
+
+- Install **wp-cli** and ensure **wp-cubi-imagemin** is activated
+- Usage: `wp media optimize <directories>... [--jpeg_level=<jpeg_level>]`
+- Help: `wp help media optimize`
+
+**Note:** thumnails regeneration commands such as [`wp media regenerate`](https://developer.wordpress.org/cli/commands/media/regenerate/) will trigger plugin optimization functions as well.

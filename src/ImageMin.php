@@ -5,6 +5,8 @@ namespace Globalis\WP\Cubi\ImageMin;
 class ImageMin
 {
 
+    const DEFAULT_JPEG_LEVEL = 85;
+
     private static $optimizer;
 
     private static $imageExtensions = [
@@ -25,15 +27,16 @@ class ImageMin
         'WP_CUBI_IMAGEMIN_PATH_BIN_PNGQUANT'  => 'pngquant_bin',
     ];
 
-    public static function hooks()
-    {
-        add_filter('wp_generate_attachment_metadata', [__CLASS__, 'optimizeMedia'], 10, 2);
-    }
-
     public static function optimizeMedia($metadata, $attachment_id)
     {
-        if (self::isImage($metadata)) {
-            foreach (self::getAllSizes($metadata) as $file) {
+        if (isset($metadata['file'])) {
+            $file_uploaded = $metadata['file'];
+        } else {
+            $file_uploaded = get_post_meta($attachment_id, '_wp_attached_file', true);
+        }
+
+        foreach (self::getAllSizes($file_uploaded, $metadata) as $file) {
+            if (self::isImagePath($file)) {
                 self::optimizeImage($file);
             }
         }
@@ -41,18 +44,18 @@ class ImageMin
         return $metadata;
     }
 
-    protected static function isImage($metadata)
+    public static function isImagePath($path)
     {
-        $pathinfo = pathinfo($metadata['file']);
+        $pathinfo = pathinfo($path);
         return in_array(strtolower($pathinfo['extension']), self::$imageExtensions);
     }
 
-    protected static function getAllSizes($metadata)
+    protected static function getAllSizes($file_uploaded, $metadata)
     {
-        $pathinfo   = pathinfo($metadata['file']);
+        $pathinfo   = pathinfo($file_uploaded);
         $upload_dir = wp_upload_dir();
         $basedir    = $upload_dir['basedir'] . '/' . $pathinfo['dirname'] . '/';
-        $basename   = basename($metadata['file']);
+        $basename   = basename($file_uploaded);
         $files      = [$basedir . $basename];
 
         if (isset($metadata['sizes'])) {
@@ -69,13 +72,13 @@ class ImageMin
         return self::getOptimizer()->optimize($file);
     }
 
-    public static function getOptimizer()
+    public static function getOptimizer($jpeg_level = self::DEFAULT_JPEG_LEVEL)
     {
         if (!isset(self::$optimizer)) {
             $options = [
                 'execute_only_first_png_optimizer'  => false,
                 'execute_only_first_jpeg_optimizer' => false,
-                'jpegoptim_options'                 => ['--strip-all', '--all-progressive', '-m85'],
+                'jpegoptim_options'                 => ['--strip-all', '--all-progressive', '-m' . $jpeg_level],
             ];
 
             foreach (self::$constBinaries as $constant => $optionName) {
@@ -90,12 +93,3 @@ class ImageMin
         return self::$optimizer;
     }
 }
-
-/*
-    @todo :
-    - hook trigered on regenerate thumbnails ?
-    - YES : optimize($attachment_id) ?
-    - YES : optimize($directory)
-    - CLI command line optimize-attachment / optimize-directory
-    - README.md
-*/
