@@ -14,6 +14,7 @@ class ImageMin
         'jpeg',
         'png',
         'gif',
+        'svg',
     ];
 
     private static $constBinaries   = [
@@ -25,6 +26,7 @@ class ImageMin
         'WP_CUBI_IMAGEMIN_PATH_BIN_PNGCRUSH'  => 'pngcrush_bin',
         'WP_CUBI_IMAGEMIN_PATH_BIN_PNGOUT'    => 'pngout_bin',
         'WP_CUBI_IMAGEMIN_PATH_BIN_PNGQUANT'  => 'pngquant_bin',
+        'WP_CUBI_IMAGEMIN_PATH_BIN_SVGO'      => 'svgo_bin',
     ];
 
     public static function optimizeMedia($metadata, $attachment_id)

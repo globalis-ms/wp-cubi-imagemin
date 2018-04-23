@@ -9,7 +9,7 @@ Standalone image minification WordPress plugin
 
 ## Overview
 
-**wp-cubi-imagemin** is a very simple image minification plugin for WordPress, meant to be used in a composer installation. It uses a couple of image minification tools to optimize uploaded images (**jpg**, **png** and **gif**).
+**wp-cubi-imagemin** is a very simple image minification plugin for WordPress, meant to be used in a composer installation. It uses a couple of image minification tools to optimize uploaded images (**jpg**, **png**, **gif** and **svg**).
 
 **wp-cubi-imagemin** is essentially a WordPress wrapper for [psliwa/image-optimizer](https://github.com/psliwa/image-optimizer).
 
@@ -32,6 +32,7 @@ define('WP_CUBI_IMAGEMIN_PATH_BIN_OPTIPNG', '/var/www/your-project/bin/optipng')
 define('WP_CUBI_IMAGEMIN_PATH_BIN_PNGCRUSH', '/var/www/your-project/bin/pngcrush');
 define('WP_CUBI_IMAGEMIN_PATH_BIN_PNGOUT', '/var/www/your-project/bin/pngout');
 define('WP_CUBI_IMAGEMIN_PATH_BIN_PNGQUANT', '/var/www/your-project/bin/pngquant');
+define('WP_CUBI_IMAGEMIN_PATH_BIN_SVGO', '/var/www/your-project/bin/svgo');
 ```
 
 If you do not define one ot the binaries paths, the plugin will try to use the system version. If it doesn't find an installed version on the system, it will just skip this tool and use the other ones.

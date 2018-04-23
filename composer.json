@@ -20,7 +20,7 @@
     "require": {
         "php":">=5.5.0",
         "composer/installers": "^1.5.0",
-        "ps/image-optimizer": "^1.1.2"
+        "ps/image-optimizer": "^1.2.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.5.1"
