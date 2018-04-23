@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4650008f7ed6cbaeb8e592b23110a463",
-    "content-hash": "68a0554c16ae0822496637485f2ef0de",
+    "content-hash": "9f173952950b82f7d1b34fda4e99c31d",
     "packages": [
         {
             "name": "composer/installers",
@@ -125,26 +124,26 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2017-12-29 09:13:20"
+            "time": "2017-12-29T09:13:20+00:00"
         },
         {
             "name": "ps/image-optimizer",
-            "version": "1.1.2",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psliwa/image-optimizer.git",
-                "reference": "e8f68a7a8cffd551d788bdd334d697a97daecac8"
+                "reference": "72620751d99b7ab0f5e32685a7689cc99e46a82a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psliwa/image-optimizer/zipball/e8f68a7a8cffd551d788bdd334d697a97daecac8",
-                "reference": "e8f68a7a8cffd551d788bdd334d697a97daecac8",
+                "url": "https://api.github.com/repos/psliwa/image-optimizer/zipball/72620751d99b7ab0f5e32685a7689cc99e46a82a",
+                "reference": "72620751d99b7ab0f5e32685a7689cc99e46a82a",
                 "shasum": ""
             },
             "require": {
                 "psr/log": "1.0.*",
-                "symfony/options-resolver": "~2.1 | ~3.0",
-                "symfony/process": "~2.0 | ~3.0"
+                "symfony/options-resolver": "~2.1 | ~3.0 | ~4.0",
+                "symfony/process": "~2.0 | ~3.0 | ~4.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^5.0"
@@ -174,7 +173,7 @@
                 "optimization",
                 "optipng"
             ],
-            "time": "2017-07-24 18:40:03"
+            "time": "2018-04-11T21:27:34+00:00"
         },
         {
             "name": "psr/log",
@@ -221,7 +220,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10 12:19:37"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -275,7 +274,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2018-01-03 07:37:34"
+            "time": "2018-01-03T07:37:34+00:00"
         },
         {
             "name": "symfony/process",
@@ -324,7 +323,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2018-01-03 07:37:34"
+            "time": "2018-01-03T07:37:34+00:00"
         }
     ],
     "packages-dev": [
@@ -404,7 +403,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-05-22 02:43:20"
+            "time": "2017-05-22T02:43:20+00:00"
         }
     ],
     "aliases": [],
