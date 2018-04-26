@@ -1,4 +1,11 @@
 jQuery(document).ready(function($){
+
+	if (typeof WPCubi_ImageMin === "undefined") {
+		return;
+	}
+
+	var field_disabled = WPCubi_ImageMin.field_disabled;
+
 	if (typeof uploader !== "undefined") {
 		var target = uploader.settings.multipart_params;
 	} else if (typeof wp !== "undefined" && typeof wp.Uploader !== "undefined") {
@@ -6,7 +13,7 @@ jQuery(document).ready(function($){
 
 		$.extend(wp.Uploader.prototype, {
 			added: function(bla1) {
-				this.param('_wp_cubi_imagemin_disabled', wp.Uploader.defaults.multipart_params._wp_cubi_imagemin_disabled);
+				this.param(field_disabled, wp.Uploader.defaults.multipart_params[field_disabled]);
 			}
 		});
 
@@ -14,20 +21,20 @@ jQuery(document).ready(function($){
 		$.extend(wp.media.view.UploaderWindow.prototype, {
 			refresh: function() {
 				old_refresh.apply(this);
-				$('#wp_cubi_imagemin').prop('checked', wp.Uploader.defaults.multipart_params._wp_cubi_imagemin_disabled);
+				$('#wp_cubi_imagemin').prop('checked', wp.Uploader.defaults.multipart_params[field_disabled]);
 			}
 		});
 	} else {
 		return;
 	}
-
-	target._wp_cubi_imagemin_disabled = 0;
+	
+	target[field_disabled] = 0;
 
 	$('body').on('change', '#wp_cubi_imagemin', function(){
 		if ($(this).prop('checked')) {
-			target._wp_cubi_imagemin_disabled = 1;
+			target[field_disabled] = 1;
 		} else {
-			target._wp_cubi_imagemin_disabled = 0;
+			target[field_disabled] = 0;
 		}
 	});
 });
