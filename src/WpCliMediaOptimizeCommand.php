@@ -53,8 +53,12 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
         $optimizer = ImageMin::getOptimizer($jpeg_level);
 
         foreach ($files as $index => $path) {
-            \WP_CLI::log(sprintf("%s Optimize image: %s", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path));
+            $size_before = filesize($path);
             $optimizer->optimize($path);
+            clearstatcache(true, $path);
+            $size_after = filesize($path);
+            
+            \WP_CLI::log(sprintf("%s Optimize image: %s (%s%%)", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path, self::percent($size_before, $size_after)));
         }
 
         \WP_CLI::success(sprintf('Optimized %s %s.', $count, _n('image', 'images', $count)));
@@ -85,5 +89,14 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
             $digits = strlen((string) $total);
         }
         return str_pad($index, $digits, '0', STR_PAD_LEFT);
+    }
+
+    protected static function percent($a, $b)
+    {
+        if (!$a || !$b) {
+            return 0;
+        }
+        $percentChange = (1 - $b / $a) * 100;
+        return round($percentChange, 0);
     }
 }
