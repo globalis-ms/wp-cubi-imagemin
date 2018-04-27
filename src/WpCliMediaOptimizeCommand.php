@@ -51,17 +51,19 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
         \WP_CLI::confirm('Do you want to run ?');
 
         $optimizer = ImageMin::getOptimizer($jpeg_level);
-
+        $total_reduced = 0;
         foreach ($files as $index => $path) {
             $size_before = filesize($path);
             $optimizer->optimize($path);
             clearstatcache(true, $path);
             $size_after = filesize($path);
+
+            $total_reduced += $size_before - $size_after;
             
-            \WP_CLI::log(sprintf("%s Optimize image: %s (%s%%)", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path, self::percent($size_before, $size_after)));
+            \WP_CLI::log(sprintf("%s Optimize image: %s : %s were saved (%s%%)", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path, self::humanFilesize($size_before - $size_after), self::percent($size_before, $size_after)));
         }
 
-        \WP_CLI::success(sprintf('Optimized %s %s.', $count, _n('image', 'images', $count)));
+        \WP_CLI::success(sprintf('Optimized %s %s. Total size was reduced of %s', $count, _n('image', 'images', $count), self::humanFilesize($total_reduced)));
     }
 
     protected static function listImagesRecursively($root_path)
@@ -98,5 +100,15 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
         }
         $percentChange = (1 - $b / $a) * 100;
         return round($percentChange, 0);
+    }
+
+    protected static function humanFilesize($bytes, $decimals = 2)
+    {
+        if ($bytes < 1024) {
+            return $bytes . ' B';
+        }
+
+        $factor = floor(log($bytes, 1024));
+        return sprintf("%.{$decimals}f ", $bytes / pow(1024, $factor)) . ['B', 'KB', 'MB', 'GB', 'TB', 'PB'][$factor];
     }
 }
