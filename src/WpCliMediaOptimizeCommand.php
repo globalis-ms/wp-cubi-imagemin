@@ -108,7 +108,7 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
             return $bytes . ' B';
         }
 
-        $factor = floor(log($bytes, 1024));
-        return sprintf("%.{$decimals}f ", $bytes / pow(1024, $factor)) . ['B', 'KB', 'MB', 'GB', 'TB', 'PB'][$factor];
+        $i = floor(log($bytes, 1024));
+        return round($bytes / pow(1024, $i), [0,0,2,2,3][$i]).['B','kB','MB','GB','TB'][$i];
     }
 }
