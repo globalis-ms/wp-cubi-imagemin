@@ -50,33 +50,10 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
         \WP_CLI::log(sprintf('Found %1$d %2$s to optimize.', $count, _n('image', 'images', $count)));
         \WP_CLI::confirm('Do you want to run ?');
 
-        // $optimizer = ImageMin::getOptimizer($jpeg_level);
         $total_reduced = 0;
         foreach ($files as $index => $path) {
-            // // Backup original file
-            // $backup = $path . '.bak-' . uniqid();
-            // copy($path, $backup);
-
-            // $size_before = filesize($path);
-            // $optimizer->optimize($path);
-            // clearstatcache(true, $path);
-            // $size_after = filesize($path);
-            // $reduced = $size_before - $size_after;
-
-            // if ($reduced < 0) {
-            //     // Restore backup
-            //     unlink($path);
-            //     rename($backup, $path);
-            //     $reduced = 0;
-            // } else {
-            //     // Remove backup
-            //     unlink($backup);
-            // }
-            
-            // $total_reduced += $reduced;
             $file_stats = ImageMin::optimizeImage($path, $jpeg_level);
             $total_reduced += $file_stats['reduced'];
-            
             \WP_CLI::log(sprintf("%s Optimize image: %s : %s were saved (%s%%)", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path, self::humanFilesize($file_stats['reduced']), $file_stats['reduced'] > 0 ? self::percent($file_stats['size_before'], $file_stats['size_after']) : 0));
         }
 
