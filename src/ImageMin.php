@@ -6,6 +6,7 @@ class ImageMin
 {
 
     const DEFAULT_JPEG_LEVEL = 85;
+    const FIELD_OPTION_IMAGEMIN_DISABLED = '_wp_cubi_imagemin_disabled';
 
     private static $optimizer;
 
@@ -29,8 +30,39 @@ class ImageMin
         'WP_CUBI_IMAGEMIN_PATH_BIN_SVGO'      => 'svgo_bin',
     ];
 
+    public static function hooks()
+    {
+        add_filter('upload_post_params', [__CLASS__, 'addOptionToPost']);
+        add_filter('plupload_default_params', [__CLASS__, 'addOptionToPost']);
+        add_action('post-upload-ui', [__CLASS__, 'addOptionMedia']);
+        add_action('post-upload-ui', [__CLASS__, 'addScripts']);
+    }
+
+    public static function addOptionMedia()
+    {
+        ?>
+        <input type="checkbox" name="<?= self::FIELD_OPTION_IMAGEMIN_DISABLED ?>" id="wp_cubi_imagemin" value="1"> <label for="wp_cubi_imagemin">Désactiver l'optimisation des images</label>
+        <?php
+    }
+
+    public static function addOptionToPost($params)
+    {
+        $params[self::FIELD_OPTION_IMAGEMIN_DISABLED] = isset($_REQUEST[self::FIELD_OPTION_IMAGEMIN_DISABLED]) ? intval($_REQUEST[self::FIELD_OPTION_IMAGEMIN_DISABLED]) : 0;
+        return $params;
+    }
+
+    public static function addScripts()
+    {
+        wp_enqueue_script('plupload-handlers-imagemin', plugin_dir_url(__FILE__) . '../assets/plupload-imagemin.js', ['plupload-handlers']);
+        wp_localize_script('plupload-handlers-imagemin', 'WPCubi_ImageMin', ['field_disabled' => self::FIELD_OPTION_IMAGEMIN_DISABLED]);
+    }
+
     public static function optimizeMedia($metadata, $attachment_id)
     {
+        if (self::isDisable()) {
+            return $metadata;
+        }
+
         if (isset($metadata['file'])) {
             $file_uploaded = $metadata['file'];
         } else {
@@ -44,6 +76,14 @@ class ImageMin
         }
 
         return $metadata;
+    }
+
+    private static function isDisable()
+    {
+        if (isset($_REQUEST[self::FIELD_OPTION_IMAGEMIN_DISABLED]) && '1' === $_REQUEST[self::FIELD_OPTION_IMAGEMIN_DISABLED]) {
+            return true;
+        }
+        return false;
     }
 
     public static function isImagePath($path)

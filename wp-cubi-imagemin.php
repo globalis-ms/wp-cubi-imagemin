@@ -17,6 +17,7 @@ namespace Globalis\WP\Cubi\ImageMin;
 
 require_once __DIR__ . '/src/ImageMin.php';
 
+ImageMin::hooks();
 add_filter('wp_generate_attachment_metadata', [__NAMESPACE__ . '\\ImageMin', 'optimizeMedia'], 10, 2);
 
 if (!class_exists('WP_CLI')) {
