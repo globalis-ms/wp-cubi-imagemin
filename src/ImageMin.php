@@ -69,9 +69,28 @@ class ImageMin
         return $files;
     }
 
-    public static function optimizeImage($file)
+    public static function optimizeImage($file, $jpeg_level = self::DEFAULT_JPEG_LEVEL)
     {
-        return self::getOptimizer()->optimize($file);
+        // Backup original file
+        $backup = $file . '.bak-' . uniqid();
+        copy($file, $backup);
+        $size_before = filesize($file);
+        self::getOptimizer($jpeg_level)->optimize($file);
+        clearstatcache(true, $file);
+        $size_after = filesize($file);
+        $reduced = $size_before - $size_after;
+
+        if ($reduced < 0) {
+            // Restore backup
+            unlink($file);
+            rename($backup, $file);
+            $reduced = 0;
+        } else {
+            // Remove backup
+            unlink($backup);
+        }
+        
+        return ['reduced' => $reduced, 'size_before' => $size_before, 'size_after' => $size_after];
     }
 
     public static function getOptimizer($jpeg_level = self::DEFAULT_JPEG_LEVEL)
