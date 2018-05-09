@@ -51,13 +51,32 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
         \WP_CLI::confirm('Do you want to run ?');
 
         $total_reduced = 0;
+        $skipped       = 0;
+
         foreach ($files as $index => $path) {
             $file_stats = ImageMin::optimizeImage($path, $jpeg_level);
-            $total_reduced += $file_stats['reduced'];
-            \WP_CLI::log(sprintf("%s Optimize image: %s : %s were saved (%s%%)", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path, self::humanFilesize($file_stats['reduced']), $file_stats['reduced'] > 0 ? self::percent($file_stats['size_before'], $file_stats['size_after']) : 0));
+
+            if($file_stats['reduced'] > 0) {
+                $total_reduced += $file_stats['reduced'];
+                \WP_CLI::log(sprintf("%s Optimized image: %s : Reduced by %s (%s%%)", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path, self::humanFilesize($file_stats['reduced']), $file_stats['reduced'] > 0 ? self::percent($file_stats['size_before'], $file_stats['size_after']) : 0));
+            } else {
+                $skipped++;
+                \WP_CLI::log(sprintf("%s Skipped image: %s : Could not reduce size", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path));
+            }
         }
 
-        \WP_CLI::success(sprintf('Optimized %s %s. Total size was reduced of %s', $count, _n('image', 'images', $count), self::humanFilesize($total_reduced)));
+        if($skipped > 0) {
+            \WP_CLI::warning(sprintf('Skipped %s %s', $skipped, _n('image', 'images', $skipped)));
+        }
+
+        $count -= $skipped;
+
+        if($count > 0) {
+            \WP_CLI::success(sprintf('Optimized %s %s', $count, _n('image', 'images', $count)));
+            \WP_CLI::success(sprintf('Total size was reduced by %s', self::humanFilesize($total_reduced)));
+        } else {
+            \WP_CLI::success('Done, but we could not optimize anything more');
+        }
     }
 
     protected static function listImagesRecursively($root_path)
@@ -99,7 +118,7 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
     protected static function humanFilesize($bytes)
     {
         if ($bytes < 1024) {
-            return $bytes . ' B';
+            return $bytes . 'B';
         }
 
         $i = floor(log($bytes, 1024));

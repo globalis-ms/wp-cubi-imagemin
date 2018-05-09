@@ -80,7 +80,7 @@ class ImageMin
         $size_after = filesize($file);
         $reduced = $size_before - $size_after;
 
-        if ($reduced < 0) {
+        if ($reduced <= 0) {
             // Restore backup
             unlink($file);
             rename($backup, $file);
