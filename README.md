@@ -1,5 +1,6 @@
 # [wp-cubi-imagemin](https://github.com/globalis-ms/wp-cubi-imagemin)
 
+[![Build Status](https://travis-ci.org/globalis-ms/wp-cubi-imagemin.svg?branch=master)](https://travis-ci.org/globalis-ms/wp-cubi-imagemin)
 [![Latest Stable Version](https://poser.pugx.org/globalis/wp-cubi-imagemin/v/stable)](https://packagist.org/packages/globalis/wp-cubi-imagemin)
 [![License](https://poser.pugx.org/globalis/wp-cubi-imagemin/license)](https://github.com/globalis-ms/wp-cubi-imagemin/blob/master/LICENSE.md)
 
