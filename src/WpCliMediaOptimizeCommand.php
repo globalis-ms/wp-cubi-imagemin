@@ -56,7 +56,7 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
         foreach ($files as $index => $path) {
             $file_stats = ImageMin::optimizeImage($path, $jpeg_level);
 
-            if($file_stats['reduced'] > 0) {
+            if ($file_stats['reduced'] > 0) {
                 $total_reduced += $file_stats['reduced'];
                 \WP_CLI::log(sprintf("%s Optimized image: %s : Reduced by %s (%s%%)", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path, self::humanFilesize($file_stats['reduced']), $file_stats['reduced'] > 0 ? self::percent($file_stats['size_before'], $file_stats['size_after']) : 0));
             } else {
@@ -65,13 +65,13 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
             }
         }
 
-        if($skipped > 0) {
+        if ($skipped > 0) {
             \WP_CLI::warning(sprintf('Skipped %s %s', $skipped, _n('image', 'images', $skipped)));
         }
 
         $count -= $skipped;
 
-        if($count > 0) {
+        if ($count > 0) {
             \WP_CLI::success(sprintf('Optimized %s %s', $count, _n('image', 'images', $count)));
             \WP_CLI::success(sprintf('Total size was reduced by %s', self::humanFilesize($total_reduced)));
         } else {
