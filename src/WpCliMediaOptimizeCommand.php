@@ -50,14 +50,33 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
         \WP_CLI::log(sprintf('Found %1$d %2$s to optimize.', $count, _n('image', 'images', $count)));
         \WP_CLI::confirm('Do you want to run ?');
 
-        $optimizer = ImageMin::getOptimizer($jpeg_level);
+        $total_reduced = 0;
+        $skipped       = 0;
 
         foreach ($files as $index => $path) {
-            \WP_CLI::log(sprintf("%s Optimize image: %s", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path));
-            $optimizer->optimize($path);
+            $file_stats = ImageMin::optimizeImage($path, $jpeg_level);
+
+            if ($file_stats['reduced'] > 0) {
+                $total_reduced += $file_stats['reduced'];
+                \WP_CLI::log(sprintf("%s Optimized image: %s : Reduced by %s (%s%%)", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path, self::humanFilesize($file_stats['reduced']), $file_stats['reduced'] > 0 ? self::percent($file_stats['size_before'], $file_stats['size_after']) : 0));
+            } else {
+                $skipped++;
+                \WP_CLI::log(sprintf("%s Skipped image: %s : Could not reduce size", sprintf("[%s/%s]", self::formatProgress($index + 1, $count), self::formatProgress($count, $count)), $path));
+            }
         }
 
-        \WP_CLI::success(sprintf('Optimized %s %s.', $count, _n('image', 'images', $count)));
+        if ($skipped > 0) {
+            \WP_CLI::warning(sprintf('Skipped %s %s', $skipped, _n('image', 'images', $skipped)));
+        }
+
+        $count -= $skipped;
+
+        if ($count > 0) {
+            \WP_CLI::success(sprintf('Optimized %s %s', $count, _n('image', 'images', $count)));
+            \WP_CLI::success(sprintf('Total size was reduced by %s', self::humanFilesize($total_reduced)));
+        } else {
+            \WP_CLI::success('Done, but we could not optimize anything more');
+        }
     }
 
     protected static function listImagesRecursively($root_path)
@@ -85,5 +104,24 @@ class WpCliMediaOptimizeCommand extends \WP_CLI_Command
             $digits = strlen((string) $total);
         }
         return str_pad($index, $digits, '0', STR_PAD_LEFT);
+    }
+
+    protected static function percent($a, $b)
+    {
+        if (!$a || !$b) {
+            return 0;
+        }
+        $percentChange = (1 - $b / $a) * 100;
+        return round($percentChange, 0);
+    }
+
+    protected static function humanFilesize($bytes)
+    {
+        if ($bytes < 1024) {
+            return $bytes . 'B';
+        }
+
+        $i = floor(log($bytes, 1024));
+        return round($bytes / pow(1024, $i), [0,0,2,2,3][$i]).['B','kB','MB','GB','TB'][$i];
     }
 }
