@@ -53,7 +53,7 @@ class ImageMin
 
     public static function addScripts()
     {
-        wp_enqueue_script('plupload-handlers-imagemin', plugin_dir_url(__FILE__) . '../assets/plupload-imagemin.js', ['plupload-handlers']);
+        wp_enqueue_script('plupload-handlers-imagemin', plugin_dir_url(__FILE__) . '../assets/plupload-imagemin.min.js', ['plupload-handlers']);
         wp_localize_script('plupload-handlers-imagemin', 'WPCubi_ImageMin', ['field_disabled' => self::FIELD_OPTION_IMAGEMIN_DISABLED]);
     }
 
