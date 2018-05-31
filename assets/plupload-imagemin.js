@@ -1,3 +1,5 @@
+// Minify from https://javascript-minifier.com/
+// wget --post-data="input=`cat plupload-imagemin.js`" --output-document=plupload-imagemin.min.js https://javascript-minifier.com/raw
 jQuery(document).ready(function($){
 
 	if (typeof WPCubi_ImageMin === "undefined") {
