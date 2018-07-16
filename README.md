@@ -55,3 +55,17 @@ Bulk image optimization can be done using [wp-cli](http://wp-cli.org/) :
 - Help: `wp help media optimize`
 
 **Note:** thumbnails regeneration commands such as [`wp media regenerate`](https://developer.wordpress.org/cli/commands/media/regenerate/) will trigger plugin optimization functions as well.
+
+## Binaries
+
+Available binaries :
+
+- [advpng](https://github.com/imagemin/advpng-bin/tree/master/vendor)
+- [gifsicle](https://github.com/imagemin/gifsicle-bin/tree/master/vendor)
+- [jpegoptim](https://github.com/imagemin/jpegoptim-bin/tree/master/vendor)
+- [jpegtran](https://github.com/imagemin/jpegtran-bin/tree/master/vendor)
+- [optipng](https://github.com/imagemin/optipng-bin/tree/master/vendor)
+- [pngcrush](https://github.com/imagemin/pngcrush-bin/tree/master/vendor)
+- [pngout](https://github.com/imagemin/pngout-bin/tree/master/vendor)
+- [pngquant](https://github.com/imagemin/pngquant-bin/tree/master/vendor)
+- [svgo](https://github.com/svg/svgo/tree/master/bin)
