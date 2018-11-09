@@ -8,9 +8,9 @@
  * Author URI:          https://www.globalis-ms.com/
  * License:             GPL2
  *
- * Version:             1.0.1
+ * Version:             1.0.4
  * Requires at least:   4.6.0
- * Tested up to:        4.9.5
+ * Tested up to:        4.9.8
  */
 
 namespace Globalis\WP\Cubi\ImageMin;
