@@ -46,6 +46,10 @@ You don't need to have all the tools working, but it is recommanded to have at l
 
 - `apply_filters('wp-cubi-imagemin\options', $options)` : Filter the options of `ImageOptimizer\OptimizerFactory` (see the [complete list](https://github.com/psliwa/image-optimizer#configuration)), such as the JPG compression level (default to 85 in wp-cubi-imagemin).
 
+- `apply_filters('wp-cubi-imagemin\custom_logger', null))` : Allow to provide a custom logger that implements `Psr\Log\LoggerInterface`. If no custom logger is provided, [inpsyde/wonolog](https://github.com/inpsyde/Wonolog) will be used if available.
+
+- `apply_filters('wp-cubi-imagemin\wonolog_channel', \Inpsyde\Wonolog\Channels::DEBUG)` : Filter [inpsyde/wonolog](https://github.com/inpsyde/Wonolog) log channel.
+
 ## Bulk optimization
 
 Bulk image optimization can be done using [wp-cli](http://wp-cli.org/) :

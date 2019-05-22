@@ -15,6 +15,7 @@
 
 namespace Globalis\WP\Cubi\ImageMin;
 
+require_once __DIR__ . '/src/WonologAdaptaterLogger.php';
 require_once __DIR__ . '/src/ImageMin.php';
 
 add_filter('wp_generate_attachment_metadata', [__NAMESPACE__ . '\\ImageMin', 'optimizeMedia'], 10, 2);
