@@ -4,7 +4,6 @@ namespace Globalis\WP\Cubi\ImageMin;
 
 class ImageMin
 {
-
     const DEFAULT_JPEG_LEVEL = 85;
 
     private static $optimizer;
@@ -89,7 +88,7 @@ class ImageMin
             // Remove backup
             unlink($backup);
         }
-        
+
         return ['reduced' => $reduced, 'size_before' => $size_before, 'size_after' => $size_after];
     }
 

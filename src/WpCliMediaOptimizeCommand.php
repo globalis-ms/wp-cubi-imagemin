@@ -4,7 +4,6 @@ namespace Globalis\WP\Cubi\ImageMin;
 
 class WpCliMediaOptimizeCommand extends \WP_CLI_Command
 {
-
     /**
      * Optimize image in one or more directories.
      *
