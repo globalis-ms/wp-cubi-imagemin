@@ -18,12 +18,11 @@
         "issues": "https://github.com/globalis-ms/wp-cubi-imagemin/issues"
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "composer/installers": "^2.0.1",
-        "ps/image-optimizer": "^2.0.5",
-        "psr/log": "^1.0.0"
+        "ps/image-optimizer": "^2.0.5"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.6.2"
+        "squizlabs/php_codesniffer": "^3.7.1"
     }
 }

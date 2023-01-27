@@ -92,21 +92,6 @@ class ImageMin
         return ['reduced' => $reduced, 'size_before' => $size_before, 'size_after' => $size_after];
     }
 
-    public static function getLogger()
-    {
-        $logger = apply_filters('wp-cubi-imagemin\custom_logger', null);
-
-        if (is_a($logger, 'Psr\Log\LoggerInterface')) {
-            return $logger;
-        }
-
-        if (defined('Inpsyde\Wonolog\LOG')) {
-            return new WonologAdaptaterLogger();
-        }
-
-        return new \Psr\Log\NullLogger();
-    }
-
     public static function getOptimizer($jpeg_level = self::DEFAULT_JPEG_LEVEL)
     {
         if (!isset(self::$optimizer)) {
@@ -124,7 +109,7 @@ class ImageMin
 
             $options = apply_filters('wp-cubi-imagemin\options', $options);
 
-            self::$optimizer = (new \ImageOptimizer\OptimizerFactory($options, self::getLogger()))->get();
+            self::$optimizer = (new \ImageOptimizer\OptimizerFactory($options))->get();
         }
 
         return self::$optimizer;
