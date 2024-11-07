@@ -109,7 +109,7 @@ class ImageMin
 
             $options = apply_filters('wp-cubi-imagemin\options', $options);
 
-            self::$optimizer = (new \ImageOptimizer\OptimizerFactory($options))->get();
+            self::$optimizer = \Spatie\ImageOptimizer\OptimizerChainFactory::create();
         }
 
         return self::$optimizer;
